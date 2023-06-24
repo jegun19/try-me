@@ -1,0 +1,4 @@
+pandas
+xgboost
+fastapi
+pydantic
