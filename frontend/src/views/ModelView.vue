@@ -5,15 +5,15 @@
     <CsvUpload />
   </div>
 </template>
-  
+
 <script>
-  import CsvUpload from '../components/models/CSVUtils.vue';
-  import ModelUpload from '../components/models/ModelUpload.vue';
-  
-  export default {
-    components: {
+import CsvUpload from "../components/models/CSVUtils.vue";
+import ModelUpload from "../components/models/ModelUpload.vue";
+
+export default {
+  components: {
     CsvUpload,
-    ModelUpload
-},
-  };
-  </script>
+    ModelUpload,
+  },
+};
+</script>

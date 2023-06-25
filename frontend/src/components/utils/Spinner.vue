@@ -29,4 +29,5 @@
   100% {
     transform: rotate(360deg);
   }
-}</style>
+}
+</style>
