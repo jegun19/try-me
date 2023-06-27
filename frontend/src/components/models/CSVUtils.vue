@@ -25,9 +25,12 @@
           v-for="(column, index) in computedArray"
           :key="column"
           :label="column"
+          :invalid-feedback="invalidFeedback"
         >
           <b-form-input
             v-model="inputObject[column]"
+            :state="inputFieldsState(column)"
+            :invalid-feedback="invalidFeedback"
             :id="column"
             :name="column"
           >
@@ -54,7 +57,15 @@
     <div v-else>
       <p>No file uploaded</p>
     </div>
-    <button class="get-prediction-button" @click="getPrediction">
+    <button
+      :disabled="areAllInputFieldsEmpty"
+      class="get-prediction-button"
+      :class="{
+        'disabled-prediction-button': areAllInputFieldsEmpty,
+        'enabled-prediction-button': !areAllInputFieldsEmpty,
+      }"
+      @click="getPrediction"
+    >
       Get Prediction
     </button>
     <div v-if="isLoading">
@@ -101,6 +112,21 @@ export default {
       if (this.predictionResult !== null) {
         return this.predictionResult[0].data;
       }
+    },
+    invalidFeedback() {
+      return "Please enter a value";
+    },
+    areAllInputFieldsEmpty() {
+      // avoid returning false when inputObject is not initialized
+      if (Object.keys(this.inputObject).length === 0) {
+        return true;
+      }
+      for (const field in this.inputObject) {
+        if (this.inputObject[field] === "") {
+          return true;
+        }
+      }
+      return false;
     },
   },
   components: {
@@ -201,6 +227,10 @@ export default {
         console.error("Error parsing JSON data:", error);
       }
     },
+    inputFieldsState(colName) {
+      const isFieldEmpty = this.inputObject[colName] === "";
+      return !isFieldEmpty;
+    },
   },
 };
 </script>
@@ -266,7 +296,6 @@ export default {
 }
 
 .get-prediction-button {
-  background-color: lightgreen;
   color: white;
   display: inline-block;
   margin-right: 10px;
@@ -274,7 +303,14 @@ export default {
   padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  cursor: pointer;
+}
+
+.enabled-prediction-button {
+  background-color: lightgreen;
+}
+
+.disabled-prediction-button {
+  background-color: gray;
 }
 
 .number-widget {
