@@ -1,14 +1,19 @@
 <template>
   <div class="model-upload-page">
     <h2>Upload Model File</h2>
-    <div>
+    <div class="button-container">
       <label class="file-input">
         <input type="file" @change="uploadModel" ref="modelFile" />
-        <span class="nav-button">Select Model File</span>
-        <button v-if="isFileSelected" class="nav-button" @click="submitFile">
-          Upload
-        </button>
+        <b-button class="button" variant="primary">Select Model File</b-button>
       </label>
+      <b-button
+        class="button"
+        v-if="isFileSelected"
+        variant="primary"
+        @click="submitFile"
+      >
+        Upload
+      </b-button>
     </div>
   </div>
 </template>
@@ -86,5 +91,13 @@ export default {
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+}
+
+.button {
+  margin-right: 10px;
 }
 </style>
