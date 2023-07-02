@@ -3,7 +3,7 @@
     <h2>Upload CSV File</h2>
     <label class="file-input">
       <input type="file" @change="handleFileUpload" accept=".csv" />
-      <span class="nav-button">Choose File</span>
+      <b-button variant="primary">Choose File</b-button>
     </label>
     <div v-if="uploadedFile">
       <p>Uploaded file: {{ uploadedFile.name }}</p>
@@ -14,7 +14,9 @@
         table-variant="secondary"
       >
         <template #cell(selected)="row">
-          <b-button @click="updateInputFieldsFromSelected(row.item)"
+          <b-button
+            variant="primary"
+            @click="updateInputFieldsFromSelected(row.item)"
             >Copy Value</b-button
           >
         </template>
@@ -57,17 +59,20 @@
     <div v-else>
       <p>No file uploaded</p>
     </div>
-    <button
+    <b-button
+      v-b-modal.modal-1
+      :variant="buttonVariant"
       :disabled="areAllInputFieldsEmpty"
-      class="get-prediction-button"
-      :class="{
-        'disabled-prediction-button': areAllInputFieldsEmpty,
-        'enabled-prediction-button': !areAllInputFieldsEmpty,
-      }"
-      @click="getPrediction"
     >
       Get Prediction
-    </button>
+    </b-button>
+    <b-modal
+      id="modal-1"
+      title="Confirmation Pop-up Dialog"
+      @ok="getPrediction"
+    >
+      <p class="my-4">Are you sure?</p>
+    </b-modal>
     <div v-if="isLoading">
       <Spinner></Spinner>
     </div>
@@ -89,6 +94,8 @@ export default {
   name: "CsvUpload",
   data() {
     return {
+      showDialog: false,
+      buttonVariant: "secondary",
       parsed: false,
       inputFields: [],
       inputObject: {},
@@ -137,6 +144,15 @@ export default {
       deep: true,
       handler(newVal) {
         this.convertValues(newVal);
+      },
+    },
+    areAllInputFieldsEmpty: {
+      handler(newVal) {
+        if (newVal) {
+          this.buttonVariant = "secondary";
+        } else {
+          this.buttonVariant = "primary";
+        }
       },
     },
   },
@@ -234,32 +250,18 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
+/* Remove square border around close button in b-modal */
+.modal-header button.close {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+}
+
 .upload-page {
   margin-top: 2rem;
 }
-
-.nav-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: lightgreen;
-  /* Set the desired light green color */
-  color: white;
-  /* Set the text color to white */
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background-color 0.3s;
-  cursor: pointer;
-}
-
-.nav-button:hover {
-  background-color: lightgreen;
-  /* Set the same light green color on hover */
-  opacity: 0.8;
-  /* Optional: Reduce the opacity on hover for a subtle effect */
-}
-
 .file-input {
   position: relative;
   display: inline-block;
@@ -294,25 +296,6 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
-.get-prediction-button {
-  color: white;
-  display: inline-block;
-  margin-right: 10px;
-  font-size: 16px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.enabled-prediction-button {
-  background-color: lightgreen;
-}
-
-.disabled-prediction-button {
-  background-color: gray;
-}
-
 .number-widget {
   display: inline-block;
   font-size: 16px;
@@ -327,5 +310,9 @@ export default {
 }
 .number-widget .text {
   font-weight: bold;
+}
+
+.modal-content {
+  color: black;
 }
 </style>
