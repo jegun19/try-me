@@ -5,13 +5,13 @@ import xgboost as xgb
 
 class ModelService:
     def __init__(self) -> None:
-        self.UPLOAD_DIR = ""
+        self.UPLOAD_DIR = os.path.join(os.getcwd(), "uploads")
         self.FILE_NAME = ""
         self.model = None
         pass
 
     async def upload_model(self, file: UploadFile):
-        if not os.path.exists(os.path.join(os.getcwd(), "uploads")):
+        if not os.path.exists(self.UPLOAD_DIR):
             self.create_upload_folder()
         file_path = os.path.join(self.UPLOAD_DIR, file.filename)
         with open(file_path, "wb") as f:
@@ -30,7 +30,6 @@ class ModelService:
         if self.model is None:
             self.load_model()
         return self.model
-    
+
     def create_upload_folder(self):
-        os.makedirs(os.path.join(os.getcwd(), "uploads"))
-        self.UPLOAD_DIR = os.path.join(os.getcwd(), "uploads")
+        os.makedirs(self.UPLOAD_DIR)
