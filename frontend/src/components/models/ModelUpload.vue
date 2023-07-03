@@ -1,7 +1,7 @@
 <template>
   <div class="model-upload-page">
-    <h2>Upload Model File</h2>
     <div class="button-container">
+      <h2>Upload Model File</h2>
       <label class="file-input">
         <input type="file" @change="uploadModel" ref="modelFile" />
         <b-button class="button" variant="primary">Select Model File</b-button>
@@ -55,6 +55,7 @@ export default {
 <style scoped>
 .model-upload-page {
   margin-top: 2rem;
+  padding-top: 20px;
 }
 
 .nav-button {
@@ -78,6 +79,13 @@ export default {
   /* Optional: Reduce the opacity on hover for a subtle effect */
 }
 
+.centralized {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .file-input {
   position: relative;
   display: inline-block;
@@ -95,9 +103,12 @@ export default {
 
 .button-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .button {
   margin-right: 10px;
+  margin-top: 1rem;
 }
 </style>

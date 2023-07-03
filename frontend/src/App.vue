@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <div class="wrapper">
-        <h1 class="title">My New Project</h1>
+        <h1 class="title">Project TryMe</h1>
         <nav>
           <router-link to="/" class="nav-button">About</router-link>
           <router-link to="/model" class="nav-button">Model</router-link>

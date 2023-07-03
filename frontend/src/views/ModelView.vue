@@ -1,6 +1,10 @@
 <template>
-  <div>
+  <div class="model-view">
     <h1>Upload Model and Input Sample</h1>
+    <span
+      >Please upload the ML model file (e.g., JSON format for XGBoost) and the
+      sample input file (e.g., train.csv or test.csv)</span
+    >
     <ModelUpload />
     <CsvUpload />
   </div>
@@ -17,3 +21,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.model-view {
+  display: flex;
+  margin-top: 2rem;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
