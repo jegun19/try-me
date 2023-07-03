@@ -1,12 +1,14 @@
 <template>
   <div class="upload-page">
-    <h2>Upload CSV File</h2>
-    <label class="file-input">
-      <input type="file" @change="handleFileUpload" accept=".csv" />
-      <b-button variant="primary">Choose File</b-button>
-    </label>
+    <div class="centralized">
+      <h2>Upload CSV File</h2>
+      <label class="file-input">
+        <input type="file" @change="handleFileUpload" accept=".csv" />
+        <b-button variant="primary">Choose File</b-button>
+      </label>
+    </div>
     <div v-if="uploadedFile">
-      <p>Uploaded file: {{ uploadedFile.name }}</p>
+      <h3>Uploaded Filename: {{ uploadedFile.name }}</h3>
       <b-table
         responsive
         :items="csvRows"
@@ -56,29 +58,29 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <p>No file uploaded</p>
-    </div>
-    <b-button
-      v-b-modal.modal-1
-      :variant="buttonVariant"
-      :disabled="areAllInputFieldsEmpty"
-    >
-      Get Prediction
-    </b-button>
-    <b-modal
-      id="modal-1"
-      title="Confirmation Pop-up Dialog"
-      @ok="getPrediction"
-    >
-      <p class="my-4">Are you sure?</p>
-    </b-modal>
-    <div v-if="isLoading">
-      <Spinner></Spinner>
-    </div>
-    <div class="number-widget" v-if="predictionResult">
-      <span class="text"> Result: </span>
-      <span class="number"> {{ predictionValue }} </span>
+    <div class="centralized">
+      <b-button
+        v-b-modal.modal-1
+        :variant="buttonVariant"
+        size="lg"
+        :disabled="areAllInputFieldsEmpty"
+      >
+        Get Prediction
+      </b-button>
+      <b-modal
+        id="modal-1"
+        title="Confirmation Pop-up Dialog"
+        @ok="getPrediction"
+      >
+        <p class="my-4">{{ popupConfirmationDialog }}</p>
+      </b-modal>
+      <div v-if="isLoading">
+        <Spinner></Spinner>
+      </div>
+      <div class="number-widget" v-if="predictionResult">
+        <span class="text"> Result: </span>
+        <span class="number"> {{ predictionValue }} </span>
+      </div>
     </div>
   </div>
 </template>
@@ -122,6 +124,17 @@ export default {
     },
     invalidFeedback() {
       return "Please enter a value";
+    },
+    popupConfirmationDialog() {
+      if (this.bodyContainsOutputLabel) {
+        return (
+          "You have selected " +
+          this.selectedColumn +
+          " column to be excluded from prediction. Press OK to continue or press cancel to modify your selection"
+        );
+      } else {
+        return "Are you sure? If yes, press OK to continue";
+      }
     },
     areAllInputFieldsEmpty() {
       // avoid returning false when inputObject is not initialized
@@ -261,6 +274,14 @@ export default {
 
 .upload-page {
   margin-top: 2rem;
+  padding-top: 20px;
+}
+
+.centralized {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .file-input {
   position: relative;
@@ -298,8 +319,9 @@ export default {
 }
 .number-widget {
   display: inline-block;
-  font-size: 16px;
+  font-size: 24px;
   padding: 5px;
+  margin-top: 20px;
   margin-left: 5px;
 }
 .number-widget .number {
