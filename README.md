@@ -58,6 +58,7 @@ TryMe is a user-friendly tool that automates the process of generating JSON obje
 4. Upload your training data file in CSV format using the provided interface.
 5. Modify the feature values using the input fields accordingly. Or better, use the `Copy Value` button!
 6. Use the generated JSON object with your machine learning model for making predictions.
+7. For detailed usage and walkthrough, please refer to the [Wiki](https://github.com/jegun19/try-me/wiki) section of this repo.
 
 ### License
 
