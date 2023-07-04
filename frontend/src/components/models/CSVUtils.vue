@@ -9,20 +9,22 @@
     </div>
     <div v-if="uploadedFile">
       <h3>Uploaded Filename: {{ uploadedFile.name }}</h3>
-      <b-table
-        responsive
-        :items="csvRows"
-        :bordered="true"
-        table-variant="secondary"
-      >
-        <template #cell(selected)="row">
-          <b-button
-            variant="primary"
-            @click="updateInputFieldsFromSelected(row.item)"
-            >Copy Value</b-button
-          >
-        </template>
-      </b-table>
+      <div class="table-container">
+        <b-table
+          responsive
+          :items="csvRows"
+          :bordered="true"
+          table-variant="secondary"
+        >
+          <template #cell(selected)="row">
+            <b-button
+              variant="primary"
+              @click="updateInputFieldsFromSelected(row.item)"
+              >Copy Value</b-button
+            >
+          </template>
+        </b-table>
+      </div>
 
       <div class="input-group">
         <b-form-group
@@ -296,6 +298,12 @@ export default {
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 1200px; /* Adjust the maximum width as needed */
+  overflow-x: auto;
 }
 
 .input-group {
